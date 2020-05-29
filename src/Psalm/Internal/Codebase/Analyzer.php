@@ -406,9 +406,6 @@ class Analyzer
                 $process_file_paths,
                 /** @return void */
                 function () {
-                    echo 'before clearing ';
-                    \Psalm\Internal\Fork\Pool::printMemory();
-
                     $project_analyzer = ProjectAnalyzer::getInstance();
                     $codebase = $project_analyzer->getCodebase();
 
@@ -426,7 +423,6 @@ class Analyzer
                     $file_reference_provider->setReferencesToMixedMemberNames([]);
                     $file_reference_provider->setMethodParamUses([]);
 
-                    echo 'after clearing ';
                     \Psalm\Internal\Fork\Pool::printMemory();
                 },
                 $analysis_worker,
