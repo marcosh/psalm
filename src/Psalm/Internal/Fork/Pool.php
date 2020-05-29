@@ -159,12 +159,12 @@ class Pool
             if ($pid === 0) {
                 $is_parent = false;
 
-                $totes_aux = explode("\n", \shell_exec('ps aux | grep ' . \posix_getpid()) ?: '');
+                $totes_aux = explode("\n", \shell_exec('ps ax -o pid,rss | grep ' . \posix_getpid()) ?: '');
 
                 $real_memory = preg_split('/ +/', $totes_aux[0]);
 
-                if (isset($real_memory[5]) && \is_numeric($real_memory[5])) {
-                    $total_memory = $real_memory[5] * 1000;
+                if (isset($real_memory[1]) && \is_numeric($real_memory[1])) {
+                    $total_memory = $real_memory[1] * 1000;
 
                     var_dump(\round($total_memory / memory_get_usage(), 3));
                 }
