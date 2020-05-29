@@ -158,17 +158,6 @@ class Pool
             // Child
             if ($pid === 0) {
                 $is_parent = false;
-
-                $totes_aux = explode("\n", \shell_exec('ps ax -o pid,rss | grep ' . \posix_getpid()) ?: '');
-
-                $real_memory = preg_split('/ +/', $totes_aux[0]);
-
-                if (isset($real_memory[1]) && \is_numeric($real_memory[1])) {
-                    $total_memory = $real_memory[1] * 1000;
-
-                    var_dump(\round($total_memory / memory_get_usage(), 3));
-                }
-
                 break;
             }
         }
@@ -434,5 +423,19 @@ class Pool
     public function didHaveError()
     {
         return $this->did_have_error;
+    }
+
+    public static function printMemory() : void
+    {
+        $totes_aux = explode("\n", \shell_exec('ps ax -o pid,rss | grep ' . \posix_getpid()) ?: '');
+
+        $real_memory = preg_split('/ +/', $totes_aux[0]);
+
+        if (isset($real_memory[1]) && \is_numeric($real_memory[1])) {
+            $total_memory = \round($real_memory[1] / 1024, 3);
+            $php_memory = \round(memory_get_usage() / (1024 * 1024), 3);
+
+            echo $total_memory . ' of ' . $php_memory . "\n";
+        }
     }
 }

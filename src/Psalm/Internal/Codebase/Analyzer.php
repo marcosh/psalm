@@ -342,6 +342,8 @@ class Analyzer
                 $file_analyzer->clearSourceBeforeDestruction();
                 unset($file_analyzer);
 
+                \Psalm\Internal\Fork\Pool::printMemory();
+
                 return IssueBuffer::getIssuesDataForFile($file_path);
             };
 
@@ -422,6 +424,8 @@ class Analyzer
                     $file_reference_provider->setFileReferencesToMissingClassMembers([]);
                     $file_reference_provider->setReferencesToMixedMemberNames([]);
                     $file_reference_provider->setMethodParamUses([]);
+
+                    \Psalm\Internal\Fork\Pool::printMemory();
                 },
                 $analysis_worker,
                 /** @return WorkerData */
