@@ -427,13 +427,13 @@ class Pool
 
     public static function printMemory() : void
     {
-        $totes_aux = explode("\n", \shell_exec('ps ax -o pid,rss | grep ' . \posix_getpid()) ?: '');
+        $totes_aux = explode("\n", trim(\shell_exec('ps ax -o pid,rss | grep ' . \posix_getpid()) ?: ''));
 
         $real_memory = preg_split('/ +/', $totes_aux[0]);
 
         if (isset($real_memory[1]) && \is_numeric($real_memory[1])) {
-            $total_memory = $real_memory[1];
-            $php_memory = \round(memory_get_usage() / (1024 * 1024)) . 'm';
+            $total_memory = \round($real_memory[1] / 1024, 3);
+            $php_memory = \round(memory_get_usage() / (1024 * 1024), 3);
 
             echo $total_memory . ' of ' . $php_memory . "\n";
         }
