@@ -431,11 +431,17 @@ class Pool
 
         $real_memory = preg_split('/ +/', $totes_aux[0]);
 
-        if (isset($real_memory[1]) && \is_numeric($real_memory[1])) {
-            $total_memory = \round($real_memory[1] / 1024, 3);
-            $php_memory = \round(memory_get_usage() / (1024 * 1024), 3);
-
-            echo $total_memory . ' of ' . $php_memory . "\n";
+        if (!isset($real_memory[1])) {
+            throw new \UnexpectedValueException('Weird and bad');
         }
+
+        if (substr($real_memory[1], -1) === 'm') {
+            $real_memory[1] = substr($real_memory[1], 0, -1) * 1024;
+        }
+
+        $total_memory = \round($real_memory[1] / 1024, 3);
+        $php_memory = \round(memory_get_usage() / (1024 * 1024), 3);
+
+        echo $total_memory . ' of ' . $php_memory . "\n";
     }
 }

@@ -333,6 +333,8 @@ class Analyzer
              * @return array
              */
             function ($_, $file_path) use ($project_analyzer, $filetype_analyzers) {
+                \Psalm\Internal\Fork\Pool::printMemory();
+
                 $file_analyzer = $this->getFileAnalyzer($project_analyzer, $file_path, $filetype_analyzers);
 
                 $this->progress->debug('Analyzing ' . $file_analyzer->getFilePath() . "\n");
@@ -406,6 +408,8 @@ class Analyzer
                 $process_file_paths,
                 /** @return void */
                 function () {
+                    \Psalm\Internal\Fork\Pool::printMemory();
+
                     $project_analyzer = ProjectAnalyzer::getInstance();
                     $codebase = $project_analyzer->getCodebase();
 
@@ -422,8 +426,6 @@ class Analyzer
                     $file_reference_provider->setFileReferencesToMissingClassMembers([]);
                     $file_reference_provider->setReferencesToMixedMemberNames([]);
                     $file_reference_provider->setMethodParamUses([]);
-
-                    \Psalm\Internal\Fork\Pool::printMemory();
                 },
                 $analysis_worker,
                 /** @return WorkerData */
