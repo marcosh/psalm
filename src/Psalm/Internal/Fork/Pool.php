@@ -157,6 +157,8 @@ class Pool
 
             // Child
             if ($pid === 0) {
+                \Psalm\Internal\Fork\Pool::printMemory();
+
                 $is_parent = false;
                 break;
             }
