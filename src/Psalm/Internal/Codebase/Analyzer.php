@@ -342,6 +342,8 @@ class Analyzer
                 $file_analyzer->clearSourceBeforeDestruction();
                 unset($file_analyzer);
 
+                \Psalm\Internal\Fork\Pool::printMemory();
+
                 return IssueBuffer::getIssuesDataForFile($file_path);
             };
 
@@ -406,8 +408,6 @@ class Analyzer
                 $process_file_paths,
                 /** @return void */
                 function () {
-                    \Psalm\Internal\Fork\Pool::printMemory();
-
                     $project_analyzer = ProjectAnalyzer::getInstance();
                     $codebase = $project_analyzer->getCodebase();
 
