@@ -406,6 +406,8 @@ class Analyzer
                 $process_file_paths,
                 /** @return void */
                 function () {
+                    \Psalm\Internal\Fork\Pool::printMemory();
+
                     $project_analyzer = ProjectAnalyzer::getInstance();
                     $codebase = $project_analyzer->getCodebase();
 
