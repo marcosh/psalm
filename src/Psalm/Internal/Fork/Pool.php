@@ -432,8 +432,8 @@ class Pool
         $real_memory = preg_split('/ +/', $totes_aux[0]);
 
         if (isset($real_memory[1]) && \is_numeric($real_memory[1])) {
-            $total_memory = \round($real_memory[1] / 1024, 3);
-            $php_memory = \round(memory_get_usage() / (1024 * 1024), 3);
+            $total_memory = $real_memory[1];
+            $php_memory = \round(memory_get_usage() / (1024 * 1024)) . 'm';
 
             echo $total_memory . ' of ' . $php_memory . "\n";
         }
