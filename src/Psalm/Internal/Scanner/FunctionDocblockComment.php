@@ -178,4 +178,9 @@ class FunctionDocblockComment
      * @var bool
      */
     public $external_mutation_free = false;
+
+    /**
+     * @var array<int, array{template_name: string, constraint_type: string}>
+     */
+    public $constraints = [];
 }
