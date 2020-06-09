@@ -635,6 +635,25 @@ class CommentAnalyzer
             }
         }
 
+        if (isset($parsed_docblock->tags['psalm-constraint'])) {
+            foreach ($parsed_docblock->tags['psalm-constraint'] as $constraint) {
+                $constraint_parts = preg_split('/[\s]+/', preg_replace('@^[ \t]*\*@m', '', $constraint));
+
+                if (count($constraint_parts) != 2) {
+                    throw new IncorrectDocblockException('Incorrect @psalm-constraint tag');
+                }
+
+                $template_name = array_shift($constraint_parts);
+
+                $constraint_type = array_shift($constraint_parts);
+
+                $info->constraints[] = [
+                    'template_name' => $template_name,
+                    'constraint_type' => $constraint_type
+                ];
+            }
+        }
+
         if (isset($parsed_docblock->tags['psalm-assert'])) {
             foreach ($parsed_docblock->tags['psalm-assert'] as $assertion) {
                 $line_parts = self::splitDocLine($assertion);
